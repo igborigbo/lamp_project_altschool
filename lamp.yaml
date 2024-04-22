@@ -1,0 +1,13 @@
+---
+- name: Installing LAMP server on Ubuntu-22.04 and deploying the laravel project from Github
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Apache, MySql and PHP to deploy the Laravel Project
+      script: /home/vagrant/lamp.sh
+    - name: Log Uptime
+      cron: 
+        name: Log Uptime
+        job: "uptime >>/var/log/server_uptime.log"
+        minute: "0"
+        hour: "0"
