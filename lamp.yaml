@@ -5,9 +5,18 @@
   tasks:
     - name: Install Apache, MySql and PHP to deploy the Laravel Project
       script: /home/vagrant/lamp.sh
-    - name: Log Uptime
-      cron: 
-        name: Log Uptime
-        job: "uptime >>/var/log/server_uptime.log"
+      
+    - name: create log file
+      file:
+        path: /var/log/uptime.log
+        state: touch
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: setup cron job for uptime
+      cron:
+        name: check uptime
         minute: "0"
         hour: "0"
+        job: "echo $(date + '%Y-%m-%d %H-%M-%S') $(uptime -p) >> /var/log/uptime.log"
